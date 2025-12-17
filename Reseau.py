@@ -10,6 +10,18 @@ class Reseau:
 
         self.noeud_entree = -1
 
+    
+    def parcourir_reseau(self):
+        noeuds = self.noeuds
+        entry_id = self.noeud_entree
+        if self.noeud_entree not in self.noeuds or self.noeud_entree == -1:
+            return set()
+        # id de noeud_entree
+        graph = {n: [] for n in noeuds.keys()}
+        for n1, n2 in self.arcs:
+            graph[n1].append(n2)
+            graph[n2].append(n1)
+
     def definir_entree(self, n: int) -> None:
         if n in self.noeuds.keys():
             self.noeud_entree = n
@@ -34,7 +46,9 @@ class Reseau:
         self.strat = strat
 
     def valider_reseau(self) -> bool:
-        # TODO
+        visited = self.parcourir_reseau()
+        if len(self.noeuds) == len(visited):
+            return True
         return False
 
     def valider_distribution(self, t: Terrain) -> bool:
